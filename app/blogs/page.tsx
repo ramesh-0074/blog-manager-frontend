@@ -59,6 +59,7 @@ export default function BlogsPage() {
 
   // Intersection Observer for infinite scroll
   useEffect(() => {
+    const currentLoaderRef = loaderRef.current;
     const observer = new IntersectionObserver(
       (entries) => {
         const target = entries[0];
@@ -72,13 +73,13 @@ export default function BlogsPage() {
       }
     );
 
-    if (loaderRef.current) {
-      observer.observe(loaderRef.current);
+    if (currentLoaderRef) {
+      observer.observe(currentLoaderRef);
     }
 
     return () => {
-      if (loaderRef.current) {
-        observer.unobserve(loaderRef.current);
+      if (currentLoaderRef) {
+        observer.unobserve(currentLoaderRef);
       }
     };
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);

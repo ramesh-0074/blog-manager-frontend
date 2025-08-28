@@ -26,18 +26,18 @@ export default function Home() {
   // Fetch public blogs
   const { data: publicBlogsData, isLoading: publicLoading } = useQuery({
     queryKey: ["public-blogs"],
-    queryFn: blogAPI.getBlogs,
+    queryFn: () => blogAPI.getBlogs(),
   });
 
   // Fetch user's blogs (only if authenticated)
   const { data: myBlogsData, isLoading: myBlogsLoading } = useQuery({
     queryKey: ["my-blogs"],
-    queryFn: blogAPI.getMyBlogs,
+    queryFn: () => blogAPI.getMyBlogs(),
     enabled: isAuthenticated,
   });
-
+  console.log("publicBlogsData",publicBlogsData)
   useEffect(() => {
-    if (publicBlogsData?.data.blogs) {
+    if (publicBlogsData && publicBlogsData?.data.blogs) {
       setBlogs(publicBlogsData.data.blogs);
     }
   }, [publicBlogsData, setBlogs]);

@@ -45,6 +45,18 @@ type Props = {
   params: Promise<{ slug: string }>; // params is now a Promise
 };
 
+interface APIError {
+  message?: string;
+  response?: {
+    status?: number;
+    data?: {
+      message?: string;
+    };
+  };
+}
+
+
+
 export default function BlogDetailPage({ params }: Props) {
   // Unwrap params using React.use()
   const { slug } = use(params);
@@ -72,8 +84,9 @@ export default function BlogDetailPage({ params }: Props) {
           // If not authenticated, use public endpoint
           return await blogAPI.getBlogBySlug(slug);
         }
-      } catch (error: any) {
-        if (error.response?.status === 403 || error.response?.status === 404) {
+      } catch (error: unknown) {
+        const apiError = error as APIError;
+        if (apiError.response?.status === 403 || apiError.response?.status === 404) {
           if (!isAuthenticated) {
             return await blogAPI.getBlogBySlug(slug);
           }
@@ -82,7 +95,7 @@ export default function BlogDetailPage({ params }: Props) {
       }
     },
     enabled: !!slug,
-    retry: (failureCount, error: any) => {
+    retry: (failureCount, error: APIError) => {
       // Don't retry on 403/404 errors
       if (error?.response?.status === 403 || error?.response?.status === 404) {
         return false;
