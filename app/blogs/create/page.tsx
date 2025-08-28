@@ -79,7 +79,7 @@ export default function CreateBlogPage() {
   };
 
   return (
-    <div className="container mx-auto py-12 max-w-4xl px-4">
+    <div className="container mx-auto py-12 max-w-4xl px-4 min-h-screen">
       <Card>
         <CardHeader>
           <CardTitle>Create Blog</CardTitle>

@@ -35,7 +35,6 @@ export default function Home() {
     queryFn: () => blogAPI.getMyBlogs(),
     enabled: isAuthenticated,
   });
-  console.log("publicBlogsData",publicBlogsData)
   useEffect(() => {
     if (publicBlogsData && publicBlogsData?.data.blogs) {
       setBlogs(publicBlogsData.data.blogs);
@@ -164,7 +163,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <h2 className="text-lg sm:text-xl font-semibold">My Blogs</h2>
                 <div className="flex flex-col sm:flex-row gap-2">
-                  <Link href="/my-blogs">
+                  <Link href="/blogs/my-blogs">
                     <Button  className="w-full sm:w-auto">
                       Manage All
                     </Button>

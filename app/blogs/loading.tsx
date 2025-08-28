@@ -2,7 +2,7 @@
 
 export default function Loading() {
   return (
-    <div className="flex h-screen flex-col items-center justify-center bg-gray-50">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
       {/* Spinner */}
       <div className="h-16 w-16 animate-spin rounded-full border-4 border-black border-t-transparent"></div>
 

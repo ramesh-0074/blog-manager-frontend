@@ -119,7 +119,7 @@ export default function BlogDetailPage({ params }: Props) {
       // Redirect to home page
       router.push("/");
     },
-    onError: (error) => {
+    onError: () => {
       toast.error("Failed to delete blog");
     },
   });

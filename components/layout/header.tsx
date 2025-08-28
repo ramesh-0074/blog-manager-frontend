@@ -52,7 +52,7 @@ export default function Header() {
                   B
                 </span>
               </div>
-              <span className="font-bold text-xl">Blog Manager</span>
+              <span className="font-bold text-base md:text-xl">Blog Manager</span>
             </Link>
           </div>
 
@@ -154,8 +154,8 @@ export default function Header() {
             ) : (
               /* Auth Buttons for Non-authenticated Users */
               <div className="flex items-center space-x-2">
-                <Link href="/auth/login" className="bg-black hover:scale-105 shadow-md rounded-md text-white px-2 py-1">Sign In</Link>
-                <Link href="/auth/register" className="bg-black hover:scale-105 shadow-md rounded-md text-white px-2 py-1">Get Started</Link>
+                <Link href="/auth/login" className="bg-black text-sm md:text-base hover:scale-105 shadow-md rounded-md text-white px-2 py-1">Sign In</Link>
+                <Link href="/auth/register" className="bg-black text-sm md:text-base hover:scale-105 shadow-md rounded-md text-white px-2 py-1">Get Started</Link>
               </div>
             )}
           </div>

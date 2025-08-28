@@ -146,7 +146,7 @@ export default function EditBlogPage({ params }: Props) {
   // Loading state
   if (isFetchingBlog) {
     return (
-      <div className="container mx-auto py-12 max-w-3xl">
+      <div className="container mx-auto py-12 min-h-screen">
         <Card>
           <CardContent className="pt-8">
             <div className="space-y-4">
@@ -165,7 +165,7 @@ export default function EditBlogPage({ params }: Props) {
   // Error or blog not found
   if (fetchError || !blog) {
     return (
-      <div className="container mx-auto py-12 max-w-3xl">
+      <div className="container mx-auto py-12 min-h-screen">
         <Card>
           <CardHeader>
             <CardTitle className="text-center text-red-600">
@@ -191,7 +191,7 @@ export default function EditBlogPage({ params }: Props) {
   // Authorization check
   if (!canEdit) {
     return (
-      <div className="container mx-auto py-12 max-w-3xl">
+      <div className="container mx-auto py-12 max-w-4xl min-h-screen">
         <Card>
           <CardHeader>
             <CardTitle className="text-center text-red-600">
@@ -215,7 +215,7 @@ export default function EditBlogPage({ params }: Props) {
   }
 
   return (
-    <div className="container mx-auto py-8 max-w-4xl">
+    <div className="container mx-auto py-8 max-w-4xl min-h-screen">
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
         <Link href={`/blogs/${slug}`}>
