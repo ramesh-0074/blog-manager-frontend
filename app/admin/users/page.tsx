@@ -38,6 +38,8 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
+import Loading from "@/app/loading";
+import Error from "@/app/error";
 
 type User = {
   createdAt?: string;
@@ -106,25 +108,13 @@ export default function AdminUsersPage() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto py-8 px-4">
-        <div className="flex items-center justify-center min-h-[400px]">
-          <Loader2 className="h-8 w-8 animate-spin" />
-        </div>
-      </div>
+    <Loading />
     );
   }
 
   if (error) {
     return (
-      <div className="container mx-auto py-8 px-4">
-        <Card>
-          <CardContent className="p-8 text-center">
-            <p className="text-red-600">
-              Error loading users. Please try again.
-            </p>
-          </CardContent>
-        </Card>
-      </div>
+      <Error error={error} reset={() => {}}/>
     );
   }
 

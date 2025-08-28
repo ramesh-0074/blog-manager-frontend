@@ -146,7 +146,7 @@ export default function EditBlogPage({ params }: Props) {
   // Loading state
   if (isFetchingBlog) {
     return (
-      <div className="container mx-auto py-12 min-h-screen">
+      <div className="container mx-auto max-w-4xl py-12 min-h-screen">
         <Card>
           <CardContent className="pt-8">
             <div className="space-y-4">
