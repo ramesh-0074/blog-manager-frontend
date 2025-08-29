@@ -16,9 +16,10 @@ import {
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
-import { blogAPI, CreateBlogData } from "@/actions/blogActions";
+import { blogAPI } from "@/actions/blogActions";
 import { Textarea } from "@/components/ui/textarea";
 import RichTextEditor from "@/components/layout/RichTextEditor";
+import { CreateBlogData } from "@/types/Blog.types";
 
 export default function CreateBlogPage() {
   const router = useRouter();

@@ -1,71 +1,14 @@
 import { apiClient } from "@/lib/api-interceptor";
-import { User } from "@/types/Auth.types";
-
-export interface RegisterData {
-  name: string;
-  email: string;
-  password: string;
-  role?: string;
-}
-
-export interface LoginData {
-  email: string;
-  password: string;
-}
-
-export interface AuthResponse {
-  success: boolean;
-  message: string;
-  data: {
-    user: {
-      _id: string;
-      name: string;
-      email: string;
-      role: string;
-    };
-    token: string;
-  };
-}
-
-export interface UserDetailsResponse {
-  success: boolean;
-  data: {
-    user: {
-      _id: string;
-      name: string;
-      email: string;
-      role: string;
-      createdAt: string;
-    };
-  };
-}
-
-export interface UpdateProfileData {
-  name: string;
-  email: string;
-}
-
-export interface UsersListResponse {
-  success: boolean;
-  data: {
-    users: User[];
-    pagination: {
-      currentPage: number;
-      totalPages: number;
-      totalUsers: number;
-      hasNextPage: boolean;
-      hasPrevPage: boolean;
-    };
-  };
-}
-
-export interface UpdateRoleResponse {
-  success: boolean;
-  message: string;
-  data: {
-    user: User;
-  };
-}
+import {
+  AuthResponse,
+  LoginData,
+  RegisterData,
+  UpdateProfileData,
+  UpdateRoleResponse,
+  User,
+  UserDetailsResponse,
+  UsersListResponse,
+} from "@/types/Auth.types";
 
 export const authAPI = {
   register: async (data: RegisterData): Promise<AuthResponse> => {

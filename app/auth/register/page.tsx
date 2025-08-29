@@ -19,7 +19,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useAuthStore } from "@/store/authStore";
-import { authAPI, RegisterData } from "@/actions/authActions";
+import { authAPI } from "@/actions/authActions";
+import { RegisterData } from "@/types/Auth.types";
 
 interface RegisterFormData {
   name: string;

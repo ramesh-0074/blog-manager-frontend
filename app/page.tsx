@@ -15,8 +15,9 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, ArrowRight, Plus } from "lucide-react";
-import { blogAPI, IBlog } from "@/actions/blogActions";
+import { blogAPI } from "@/actions/blogActions";
 import { BlogCard } from "@/components/layout/BlogCard";
+import { IBlog } from "@/types/Blog.types";
 
 export default function Home() {
   const { blogs, setBlogs } = useBlogStore();

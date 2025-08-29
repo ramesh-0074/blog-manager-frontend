@@ -1,8 +1,7 @@
 // actions/serverActions/getUserActions.ts
-import { UsersResponse } from "@/types/Auth.types";
+import { UserDetailsResponse, UsersResponse } from "@/types/Auth.types";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { UserDetailsResponse } from "../authActions";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";

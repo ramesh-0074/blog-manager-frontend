@@ -13,7 +13,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAuthStore } from '@/store/authStore'
-import { authAPI, LoginData } from '@/actions/authActions'
+import { authAPI } from '@/actions/authActions'
+import { LoginData } from '@/types/Auth.types'
 
 interface LoginFormData {
   email: string

@@ -16,12 +16,13 @@ import {
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Loader2, ArrowLeft, Save } from "lucide-react";
-import { blogAPI, UpdateBlogData } from "@/actions/blogActions";
+import { blogAPI } from "@/actions/blogActions";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthStore } from "@/store/authStore";
 import Link from "next/link";
 import { use, useEffect } from "react";
 import RichTextEditor from "@/components/layout/RichTextEditor";
+import { UpdateBlogData } from "@/types/Blog.types";
 
 type Props = {
   params: Promise<{ slug: string }>;

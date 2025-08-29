@@ -1,5 +1,5 @@
 // src/store/blogStore.ts
-import { IBlog } from '@/actions/blogActions'
+import { IBlog } from '@/types/Blog.types'
 import { create } from 'zustand'
 
 interface BlogState {

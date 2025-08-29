@@ -9,8 +9,8 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { IBlog } from "@/actions/blogActions";
 import { decodeHtmlEntities } from "@/lib/htmlHelper";
+import { IBlog } from "@/types/Blog.types";
 
 interface BlogCardProps {
   blog: IBlog;
