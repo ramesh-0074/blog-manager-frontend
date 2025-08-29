@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/api-interceptor";
-import { User } from "@/store/authStore";
+import { User } from "@/types/Auth.types";
 
 export interface RegisterData {
   name: string;

@@ -1,30 +1,17 @@
-import { create } from 'zustand'
-import { persist, createJSONStorage } from 'zustand/middleware'
-import Cookies from 'js-cookie'
-
-export interface User {
-  _id: string
-  name: string
-  email: string
-  role: string
-}
-
-export interface AuthState {
-  user: User | null
-  token: string | null
-  isAuthenticated: boolean
-  setAuth: (user: User, token: string) => void
-  clearAuth: () => void
-  updateUser: (user: Partial<User>) => void
-}
+// store/authStore.ts
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
+import Cookies from "js-cookie";
+import React from "react";
+import { AuthState } from "@/types/Auth.types";
 
 // Cookie configuration
 const COOKIE_OPTIONS = {
   expires: 7, // 7 days
-  secure: process.env.NODE_ENV === 'production', // Only use secure cookies in production
-  sameSite: 'strict' as const,
-  path: '/'
-}
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "strict" as const,
+  path: "/",
+};
 
 export const useAuthStore = create<AuthState>()(
   persist(
@@ -32,60 +19,110 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       token: null,
       isAuthenticated: false,
-      
+      hydrated: false,
+
+      setHydrated: () => set({ hydrated: true }),
+
       setAuth: (user, token) => {
-        // Set token in cookies
-        Cookies.set('auth-token', token, COOKIE_OPTIONS)
-        
-        set({ user, token, isAuthenticated: true })
+        // Set token in cookies (client-side only)
+        if (typeof window !== "undefined") {
+          Cookies.set("auth-token", token, COOKIE_OPTIONS);
+        }
+
+        set({ user, token, isAuthenticated: true });
       },
-      
+
       clearAuth: () => {
-        // Remove token from cookies
-        Cookies.remove('auth-token', { path: '/' })
-        
-        set({ user: null, token: null, isAuthenticated: false })
+        // Remove token from cookies (client-side only)
+        if (typeof window !== "undefined") {
+          Cookies.remove("auth-token", { path: "/" });
+        }
+
+        set({ user: null, token: null, isAuthenticated: false });
       },
-      
+
       updateUser: (userData) => {
-        const currentUser = get().user
+        const currentUser = get().user;
         if (currentUser) {
-          set({ user: { ...currentUser, ...userData } })
+          set({ user: { ...currentUser, ...userData } });
         }
       },
     }),
     {
-      name: 'auth-storage',
-      storage: createJSONStorage(() => localStorage),
-      // Initialize token from cookies on hydration
+      name: "auth-storage",
+      storage: createJSONStorage(() => {
+        // Return a mock storage for SSR, real localStorage for client
+        if (typeof window === "undefined") {
+          return {
+            getItem: () => null,
+            setItem: () => {},
+            removeItem: () => {},
+          };
+        }
+        return localStorage;
+      }),
+
+      // Handle hydration properly
       onRehydrateStorage: () => (state) => {
-        if (state && typeof window !== 'undefined') {
-          const cookieToken = Cookies.get('auth-token')
-          if (cookieToken && state.token !== cookieToken) {
-            state.token = cookieToken
+        if (state) {
+          // Set hydrated flag
+          state.hydrated = true;
+
+          // Sync with cookies on client-side hydration
+          if (typeof window !== "undefined") {
+            const cookieToken = Cookies.get("auth-token");
+
+            // If we have a token in cookies, use it
+            if (cookieToken) {
+              state.token = cookieToken;
+              // Only set isAuthenticated if we also have user data
+              if (state.user) {
+                state.isAuthenticated = true;
+              }
+            } else if (state.token) {
+              // If we have token in localStorage but not in cookies, clear the state
+              state.user = null;
+              state.token = null;
+              state.isAuthenticated = false;
+            }
           }
         }
       },
     }
   )
-)
+);
 
-// Helper function to get token from cookies (useful for SSR)
+// Server-side helper to get token from cookies
+export const getServerToken = (cookieHeader?: string): string | null => {
+  if (!cookieHeader) return null;
+
+  const cookies = cookieHeader.split(";").reduce((acc, cookie) => {
+    const [key, value] = cookie.trim().split("=");
+    acc[key] = value;
+    return acc;
+  }, {} as Record<string, string>);
+
+  return cookies["auth-token"] || null;
+};
+
+// Client-side helper to get token from cookies
 export const getTokenFromCookies = (): string | null => {
-  if (typeof window === 'undefined') {
-    return null
+  if (typeof window === "undefined") {
+    return null;
   }
-  return Cookies.get('auth-token') || null
-}
+  return Cookies.get("auth-token") || null;
+};
 
-// Helper function to initialize auth from cookies (useful for SSR scenarios)
-export const initializeAuthFromCookies = () => {
-  const token = getTokenFromCookies()
-  const state = useAuthStore.getState()
-  
-  if (token && !state.token) {
-    // If we have a token in cookies but not in store, we need to validate it
-    // You might want to make an API call here to verify the token and get user data
-    console.log('Token found in cookies, consider validating it')
-  }
-}
+// Hook to handle hydration mismatch
+export const useAuthHydration = () => {
+  const hydrated = useAuthStore((state) => state.hydrated);
+  const setHydrated = useAuthStore((state) => state.setHydrated);
+
+  React.useEffect(() => {
+    if (!hydrated) {
+      setHydrated();
+    }
+  }, [hydrated, setHydrated]);
+
+  return hydrated;
+};
